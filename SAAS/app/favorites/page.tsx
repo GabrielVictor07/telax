@@ -15,7 +15,7 @@ export default async function FavoritesPage() {
         <Sidebar />
         <div className="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen pb-20 md:pb-0">
           <Header />
-          <AccessDenied message="Crie uma conta para salvar seus filmes e séries favoritos." />
+          <AccessDenied message="Crie uma conta para salvar seus filmes favoritos." />
         </div>
       </div>
     );

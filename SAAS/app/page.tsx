@@ -1,3 +1,4 @@
+import { prisma } from '@/lib/prisma';
 import { getMovies } from '@/lib/actions/movie';
 import { getCategories } from '@/lib/actions/category';
 import { checkUserAccess } from '@/lib/actions/user';
@@ -10,26 +11,25 @@ export const revalidate = 60;
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
   const user = session?.user as any;
-  const hasAccess = await checkUserAccess(user?.id, user?.role);
   
-  let movies = await getMovies();
-  const categories = await getCategories();
+  const [hasAccess, moviesData, categories, userFavorites] = await Promise.all([
+    checkUserAccess(user?.id, user?.role),
+    getMovies(),
+    getCategories(),
+    user?.id
+      ? prisma.favorite.findMany({
+          where: { userId: user.id },
+          select: { movieId: true },
+        }).catch(() => [])
+      : Promise.resolve([]),
+  ]);
 
-  // Se logado, busca favoritos para mapear na UI
-  if (user?.id) {
-    const { prisma } = await import('@/lib/prisma');
-    const userFavorites = await prisma.favorite.findMany({
-      where: { userId: user.id },
-      select: { movieId: true },
-    });
-    
-    const favoriteIds = new Set(userFavorites.map(f => f.movieId));
-    
-    movies = movies.map(movie => ({
-      ...movie,
-      isFavorite: favoriteIds.has(movie.id),
-    }));
-  }
+  const favoriteIds = new Set(userFavorites.map((f: any) => f.movieId));
+  
+  const movies = moviesData.map((movie: any) => ({
+    ...movie,
+    isFavorite: favoriteIds.has(movie.id),
+  }));
 
   return <HomeClient initialMovies={movies} categories={categories} hasAccess={hasAccess} />;
 }

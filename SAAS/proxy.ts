@@ -55,7 +55,5 @@ export const config = {
   matcher: [
     '/admin/:path*',
     '/api/admin/:path*',
-    // Exclui rotas do NextAuth, assets estáticos e favicon
-    '/((?!api/auth|_next/static|_next/image|favicon.ico).*)',
   ],
 };
