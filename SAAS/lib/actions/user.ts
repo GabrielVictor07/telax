@@ -18,26 +18,35 @@ export async function checkUserAccess(userId?: string, role?: string) {
   if (role === 'ADMIN') return true;
   if (!userId) return false;
 
-  const activeSub = await prisma.subscription.findFirst({
-    where: {
-      userId,
-      status: 'ACTIVE',
-      expiresAt: { gt: new Date() },
-    },
-  });
-
-  return !!activeSub;
+  try {
+    const activeSub = await prisma.subscription.findFirst({
+      where: {
+        userId,
+        status: 'ACTIVE',
+        expiresAt: { gt: new Date() },
+      },
+    });
+    return !!activeSub;
+  } catch (error) {
+    console.warn('[Prisma Warning] Banco de dados indisponível.');
+    return false;
+  }
 }
 
 export async function getUsers() {
   await requireAdmin();
 
-  return prisma.user.findMany({
-    include: {
-      subscriptions: true,
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+  try {
+    return await prisma.user.findMany({
+      include: {
+        subscriptions: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch (error) {
+    console.warn('[Prisma Warning] Banco de dados indisponível.');
+    return [];
+  }
 }
 
 export async function deleteUser(id: string) {

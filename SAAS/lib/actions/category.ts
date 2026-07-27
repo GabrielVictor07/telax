@@ -16,16 +16,21 @@ async function requireAdmin() {
 }
 
 export async function getCategories() {
-  return getCachedData('categories_all', async () => {
-    return prisma.category.findMany({
-      include: {
-        _count: {
-          select: { movies: true },
+  try {
+    return await getCachedData('categories_all', async () => {
+      return prisma.category.findMany({
+        include: {
+          _count: {
+            select: { movies: true },
+          },
         },
-      },
-      orderBy: { name: 'asc' },
-    });
-  }, 60 * 60); // 1 hour cache
+        orderBy: { name: 'asc' },
+      });
+    }, 60 * 60); // 1 hour cache
+  } catch (error) {
+    console.warn('[Prisma Warning] Banco de dados indisponível no servidor.');
+    return [];
+  }
 }
 
 import { categorySchema } from '@/lib/validators';

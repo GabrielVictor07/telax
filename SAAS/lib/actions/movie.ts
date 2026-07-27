@@ -16,14 +16,19 @@ async function requireAdmin() {
 }
 
 export async function getMovies() {
-  return getCachedData('movies_all', async () => {
-    return prisma.movie.findMany({
-      include: {
-        category: true,
-      },
-      orderBy: { createdAt: 'desc' },
-    });
-  }, 60 * 5); // 5 minutes cache
+  try {
+    return await getCachedData('movies_all', async () => {
+      return prisma.movie.findMany({
+        include: {
+          category: true,
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+    }, 60 * 5); // 5 minutes cache
+  } catch (error) {
+    console.warn('[Prisma Warning] Banco de dados indisponível no servidor.');
+    return [];
+  }
 }
 
 import { movieSchema } from '@/lib/validators';
