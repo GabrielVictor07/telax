@@ -59,7 +59,7 @@ export default function PlansPage() {
         </h1>
 
         <p className="text-sm md:text-base text-gray-300 text-center max-w-2xl mb-10 leading-relaxed">
-          Esqueça faturas mensais e assinaturas recorrentes. Pague apenas uma vez e tenha acesso ilimitado para sempre a todos os filmes, séries e lançamentos em 4K.
+          Esqueça faturas mensais e assinaturas recorrentes. Pague apenas uma vez e tenha acesso ilimitado para sempre a todos os filmes e lançamentos em 4K.
         </p>
 
         {/* Card Único Hero de Altíssima Conversão */}

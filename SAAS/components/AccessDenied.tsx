@@ -7,7 +7,7 @@ interface AccessDeniedProps {
   message?: string;
 }
 
-export default function AccessDenied({ message = 'Para assistir a filmes, séries e usar a lista de favoritos, é necessário realizar o pagamento único de R$ 10,90.' }: AccessDeniedProps) {
+export default function AccessDenied({ message = 'Para assistir aos filmes e usar a lista de favoritos, é necessário realizar o pagamento único de R$ 10,90.' }: AccessDeniedProps) {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 py-8 md:p-8 text-center w-full max-w-full overflow-hidden">
       <div className="w-20 h-20 rounded-full bg-[#ff0b37]/10 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(255,11,55,0.2)] flex-shrink-0">

@@ -4,6 +4,8 @@ import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { Search, LogOut, LogIn } from 'lucide-react';
 
+import { getAvatarGradient, getAvatarInitial } from '@/lib/avatar';
+
 interface HeaderProps {
   onSearch?: (value: string) => void;
   isAdmin?: boolean;
@@ -27,7 +29,7 @@ export default function Header({ onSearch, isAdmin }: HeaderProps) {
         ) : (
           <nav className="hidden md:flex items-center gap-6 text-sm font-semibold">
             <Link href="/" className="text-white border-b-2 border-[#ff0b37] pb-1">Filmes</Link>
-            <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors">Séries</Link>
+            <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors">Catálogo</Link>
             <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors">Em Destaque</Link>
           </nav>
         )}
@@ -48,19 +50,15 @@ export default function Header({ onSearch, isAdmin }: HeaderProps) {
         {status === 'authenticated' && user ? (
           <div className="hidden md:flex items-center gap-4">
             <Link href="/profile" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-full border-2 border-[#ff0b37] overflow-hidden shadow-[0_0_10px_rgba(255,11,55,0.3)] group-hover:scale-105 transition-transform">
-                <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
-                  alt="Avatar"
-                  className="w-full h-full object-cover"
-                />
+              <div className={`w-10 h-10 rounded-full border-2 border-[#ff0b37] bg-gradient-to-br ${getAvatarGradient(user.email || user.name)} flex items-center justify-center font-bold text-sm shadow-[0_0_10px_rgba(255,11,55,0.3)] group-hover:scale-105 transition-transform`}>
+                {getAvatarInitial(user.name, user.email)}
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-xs font-semibold text-white group-hover:text-[#ff0b37] transition-colors">{user.name || user.email}</span>
                 <span className="text-[10px] font-bold text-[#ff0b37]">
                   {user.role === 'ADMIN' ? 'ADMINISTRADOR' : 'CLIENTE VIP'}
                 </span>
-              </div>
+                </div>
             </Link>
 
             <button

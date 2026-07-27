@@ -112,7 +112,7 @@ export default function LandingView() {
             </h1>
 
             <p className="text-sm sm:text-base text-gray-300 max-w-lg mb-8 leading-relaxed">
-              Assista a filmes de sucesso, séries exclusivas, lançamentos de cinema e animações em alta definição na palma da sua mão. Pague uma única vez e tenha acesso para sempre.
+              Assista a filmes de sucesso, lançamentos de cinema e animações em alta definição na palma da sua mão. Pague uma única vez e tenha acesso para sempre.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -242,7 +242,7 @@ export default function LandingView() {
               </div>
               <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#ff2a53] transition-colors">Catálogo Completo</h3>
               <p className="text-xs text-gray-400 leading-relaxed font-normal">
-                Acesso ilimitado a todos os filmes, séries e lançamentos sem restrições ou travamentos.
+                Acesso ilimitado a todos os filmes e lançamentos sem restrições ou travamentos.
               </p>
             </div>
 
@@ -365,7 +365,7 @@ export default function LandingView() {
               },
               {
                 q: 'O catálogo é atualizado?',
-                a: 'Sim! Atualizamos nosso catálogo constantemente com lançamentos do cinema, novas temporadas de séries e conteúdos em alta definição.',
+                a: 'Sim! Atualizamos nosso catálogo constantemente com lançamentos do cinema e produções em alta definição.',
               },
             ].map((item, idx) => (
               <div key={idx} className="bg-[#101218] border border-white/10 rounded-2xl overflow-hidden">

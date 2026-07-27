@@ -53,7 +53,7 @@ export default function FavoritesClient({ initialMovies, hasAccess = true }: { i
         <main className="p-4 md:p-8 flex-1">
           <div className="mb-10">
             <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight mb-2">Minha Lista</h1>
-            <p className="text-sm text-gray-400">Filmes e séries salvos para assistir mais tarde.</p>
+            <p className="text-sm text-gray-400">Filmes salvos para assistir mais tarde.</p>
           </div>
 
           {movies.length === 0 ? (

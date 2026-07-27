@@ -93,7 +93,7 @@ export default function CatalogClient({ initialMovies, categories, hasAccess = f
               Acervo Completo e Atualizado
             </div>
             <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-3">
-              Explore Todos os Filmes e Séries
+              Explore Todos os Filmes
             </h1>
             <p className="text-xs md:text-sm text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed">
               Navegue pelo nosso catálogo completo de produções exclusivas. Crie sua conta ou faça login para liberar a reprodução ilimitada em 4K.

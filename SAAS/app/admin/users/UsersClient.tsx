@@ -7,6 +7,8 @@ import { Users, Trash2 } from 'lucide-react';
 import { deleteUser } from '@/lib/actions/user';
 import { useRouter } from 'next/navigation';
 
+import { getAvatarGradient, getAvatarInitial } from '@/lib/avatar';
+
 export default function UsersClient({ initialUsers }: { initialUsers: any[] }) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -68,8 +70,15 @@ export default function UsersClient({ initialUsers }: { initialUsers: any[] }) {
                   return (
                     <tr key={user.id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="py-3 px-6">
-                        <div className="font-bold text-white">{user.name}</div>
-                        <div className="text-gray-400 text-[10px]">{user.email}</div>
+                        <div className="flex items-center gap-3">
+                          <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${getAvatarGradient(user.email || user.name)} flex items-center justify-center font-bold text-xs text-white shadow-sm`}>
+                            {getAvatarInitial(user.name, user.email)}
+                          </div>
+                          <div>
+                            <div className="font-bold text-white">{user.name}</div>
+                            <div className="text-gray-400 text-[10px]">{user.email}</div>
+                          </div>
+                        </div>
                       </td>
                       <td className="py-3 px-6">
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${

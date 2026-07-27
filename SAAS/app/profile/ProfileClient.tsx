@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { ShieldCheck, Star, User, XCircle, Clock, CreditCard, AlertTriangle, CheckCircle, ArrowUpRight } from 'lucide-react';
 import { cancelSubscription } from '@/lib/actions/subscription';
 
+import { getAvatarGradient, getAvatarInitial } from '@/lib/avatar';
+
 interface SubscriptionData {
   id: string;
   plan: string;
@@ -96,8 +98,8 @@ export default function ProfileClient({ user, activeSub, isFree, subscriptionHis
         <div className="md:col-span-2 space-y-6">
           <div className="bg-[#101218] border border-white/10 rounded-2xl md:rounded-3xl p-5 md:p-8">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-[#ff0b37] to-[#ff2a53] flex items-center justify-center text-xl md:text-2xl font-black shadow-[0_0_20px_rgba(255,11,55,0.3)]">
-                {user.name?.charAt(0).toUpperCase()}
+              <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br ${getAvatarGradient(user.email || user.name)} flex items-center justify-center text-xl md:text-2xl font-black shadow-[0_0_20px_rgba(255,11,55,0.3)]`}>
+                {getAvatarInitial(user.name, user.email)}
               </div>
               <div>
                 <h2 className="text-lg md:text-xl font-bold text-white">{user.name}</h2>

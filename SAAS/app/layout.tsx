@@ -5,7 +5,7 @@ import BottomNav from '@/components/BottomNav';
 
 export const metadata: Metadata = {
   title: 'TELAX - Plataforma de Streaming & Catálogo Premium',
-  description: 'Assista aos melhores filmes, séries e produções em alta definição na plataforma TELAX.',
+  description: 'Assista aos melhores filmes, lançamentos e produções em alta definição na plataforma TELAX.',
 };
 
 export default function RootLayout({
