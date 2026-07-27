@@ -1,0 +1,99 @@
+// Prisma Schema - TELAX SaaS
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Plan {
+  GOLD
+  PLATINUM
+  DIAMOND
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PENDING
+}
+
+model User {
+  id               String         @id @default(cuid())
+  name             String
+  email            String         @unique
+  passwordHash     String
+  role             Role           @default(USER)
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  subscriptions    Subscription[]
+  favorites        Favorite[]
+  auditLogs        AuditLog[]
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                 Plan               @default(GOLD)
+  status               SubscriptionStatus @default(ACTIVE)
+  paymentGatewayId     String?
+  expiresAt            DateTime
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+}
+
+model Category {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  slug   String  @unique
+  movies Movie[]
+}
+
+model Movie {
+  id          String     @id @default(cuid())
+  title       String
+  description String     @db.Text
+  year        Int
+  rating      Float      @default(4.5)
+  duration    String     @default("2h 00m")
+  posterUrl   String
+  bannerUrl   String
+  videoUrl    String
+  isFeatured  Boolean    @default(false)
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  favorites   Favorite[]
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movieId   String
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, movieId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  details   String?  @db.Text
+  ipAddress String?
+  adminId   String
+  admin     User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}

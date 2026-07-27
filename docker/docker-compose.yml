@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: telax_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-telax_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-telax_password_123}
+      POSTGRES_DB: ${POSTGRES_DB:-telax_db}
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: telax_redis
+    restart: always
+    ports:
+      - '127.0.0.1:6381:6379'
+    volumes:
+      - redis_data:/data
+
+  telax_app:
+    build:
+      context: ../SAAS
+      dockerfile: Dockerfile
+    container_name: telax_app
+    restart: always
+    env_file:
+      - ../SAAS/.env
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - '3000:3000'
+
+  nginx:
+    image: nginx:alpine
+    container_name: telax_nginx
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - certbot_data:/var/www/certbot:ro
+      - certbot_etc:/etc/letsencrypt:ro
+    depends_on:
+      - telax_app
+
+volumes:
+  postgres_data:
+  redis_data:
+  certbot_data:
+  certbot_etc:
